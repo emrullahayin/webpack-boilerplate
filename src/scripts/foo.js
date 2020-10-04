@@ -1,5 +1,6 @@
-export class Foo {
+class Foo {
   static Test() {
-    console.log("Foo");
+    return 'DE';
   }
 }
+export default Foo;
