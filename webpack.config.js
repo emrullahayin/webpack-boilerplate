@@ -100,7 +100,7 @@ fs.readdirSync(path.join(__dirname, 'src', 'views', 'templates')).forEach(
     const htmlPageInit = new HtmlWebPackPlugin({
       title: `${normalizeText(page)} | Frontend Boilerplate`,
       template: `./src/views/templates/${page}/${page}.hbs`,
-      filename: `./${page !== 'home' ? `${page}/` : ''}index.html`,
+      filename: `./${page === 'home' ? 'index' : `${page}`}.html`,
       chunks: ['main', page],
       minify: {
         collapseWhitespace: false,
