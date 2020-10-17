@@ -57,5 +57,5 @@
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^5.1.4"
   },
-  "browserslist": "> 0.25%, not dead"
+  "browserslist": "last 2 versions"
 }

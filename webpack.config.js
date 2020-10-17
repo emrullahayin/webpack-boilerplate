@@ -78,7 +78,14 @@ const webpackConfig = {
             loader: 'css-loader',
             options: { sourceMap: !isProduction },
           },
-          'sass-loader',
+          {
+            loader: 'postcss-loader',
+            options: { sourceMap: !isProduction },
+          },
+          {
+            loader: 'sass-loader',
+            options: { sourceMap: !isProduction },
+          },
         ],
       },
     ],
