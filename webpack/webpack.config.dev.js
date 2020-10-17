@@ -5,13 +5,15 @@ const common = require('../webpack.config');
 
 module.exports = merge(common, {
   mode: 'development',
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   output: {
+    filename: 'js/[name].js',
     chunkFilename: 'js/[name].chunk.js',
   },
   devServer: {
     inline: true,
     hot: true,
+    port: 3000,
   },
   plugins: [
     new Webpack.DefinePlugin({

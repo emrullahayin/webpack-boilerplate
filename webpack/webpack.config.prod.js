@@ -4,7 +4,7 @@ const common = require('../webpack.config');
 
 module.exports = merge(common, {
   mode: 'production',
-  devtool: 'cheap-eval-source-map',
+  devtool: false,
   stats: 'errors-only',
   bail: true,
   output: {

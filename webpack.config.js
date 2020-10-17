@@ -1,9 +1,9 @@
 const fs = require('fs');
+const webpack = require('webpack');
 const path = require('path');
 const glob = require('glob');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
@@ -24,14 +24,6 @@ const webpackConfig = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'js/[name].js',
-  },
-  optimization: {
-    minimizer: [
-      new CssMinimizerPlugin({
-        sourceMap: !isProduction,
-      }),
-    ],
   },
   module: {
     rules: [
@@ -75,9 +67,18 @@ const webpackConfig = {
       {
         test: /\.(scss|sass)$/,
         use: [
-          MiniCssExtractPlugin.loader,
-          { loader: 'css-loader', options: { sourceMap: !isProduction } },
-          { loader: 'sass-loader', options: { sourceMap: !isProduction } },
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: path.resolve(__dirname, '../src/scss'),
+              hmr: process.env.NODE_ENV === 'development',
+            },
+          },
+          {
+            loader: 'css-loader',
+            options: { sourceMap: !isProduction },
+          },
+          'sass-loader',
         ],
       },
     ],
@@ -85,14 +86,11 @@ const webpackConfig = {
   plugins: [
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: !isProduction ? 'css/[name].css' : 'css/[name].[hash].css',
-      chunkFilename: !isProduction ? '[id].css' : '[id].[hash].css',
+      filename: !isProduction ? 'css/[name].css' : 'css/[name].[hash:8].css',
+      chunkFilename: !isProduction ? '[id].css' : '[id].[hash:8].css',
     }),
     new CopyPlugin({ patterns: [{ from: './src/media', to: 'media' }] }),
   ],
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-  },
 };
 
 fs.readdirSync(path.join(__dirname, 'src', 'views', 'templates')).forEach(
