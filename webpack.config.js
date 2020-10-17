@@ -1,4 +1,5 @@
 const fs = require('fs');
+const webpack = require('webpack');
 const path = require('path');
 const glob = require('glob');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
@@ -23,6 +24,13 @@ const webpackConfig = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
+  },
+  resolve: {
+    alias: {
+      jquery: path.join(__dirname, 'node_modules/jquery/src/jquery'),
+      '@': path.resolve(__dirname, 'dist'),
+    },
+    extensions: ['.js', '.scss'],
   },
   module: {
     rules: [
@@ -94,6 +102,10 @@ const webpackConfig = {
     new MiniCssExtractPlugin({
       filename: !isProduction ? 'css/[name].css' : 'css/[name].[hash:8].css',
       chunkFilename: !isProduction ? '[id].css' : '[id].[hash:8].css',
+    }),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
     }),
     new CopyPlugin({ patterns: [{ from: './src/media', to: 'media' }] }),
   ],
